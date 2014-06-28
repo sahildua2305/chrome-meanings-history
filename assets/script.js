@@ -1,3 +1,13 @@
+function gup (string,name) {
+	name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+	var regexS = "[\\?&]" + name + "=([^&#]*)";
+	var regex = new RegExp(regexS);
+	var results = regex.exec(string);
+	if (results == null) {
+		return '.';
+	else
+		return results[1];
+}
 
 function extractDataFromHistory(){
 	//document.getElementById('history').innerHTML = "hi";
@@ -7,7 +17,7 @@ function extractDataFromHistory(){
 			var url = historyItems[i].url;
 			if(url.indexOf('google')>-1 && url.search('q=')){
 				//data += historyItems[i].url.indexOf('google');
-				data += url;
+				data += gup(url, 'q');
 				data += "<br>";
 				data += "<br>";
 			}
