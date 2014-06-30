@@ -1,4 +1,4 @@
-
+//RegExp function for getting a query keyword from google query link
 function regexComp(link) {
 	name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
 	link = link.replace(/(\?[\S]*)(#)/,"$1&"); 
@@ -17,7 +17,10 @@ function extractDataFromHistory(){
 		var data = "<table border='1'>";
 		data += "<tr><th>Search Query</th><th>Number of times</th></tr>";
 		
+		//local variable array
+		var historyLinks = [];
 		
+		//Iterating over all links in history which are from google and contain a search query
 		for(var i=0; i<historyItems.length; i++){
 			var url = historyItems[i].url;
 			var count = historyItems[i].visitCount;
