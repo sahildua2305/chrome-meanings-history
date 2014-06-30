@@ -18,7 +18,7 @@ function extractDataFromHistory(){
 		data += "<tr><th>Search Query</th><th>Number of times</th></tr>";
 		
 		//local variable array
-		var historyLinks = new Array();
+		//var historyLinks = new Array();
 		
 		//Iterating over all links in history which are from google and contain a search query
 		for(var i=0; i<historyItems.length; i++){
@@ -26,19 +26,18 @@ function extractDataFromHistory(){
 			if(url.indexOf('google')>-1 && url.indexOf('q=')>-1 && regexComp(url) && regexComp(url).indexOf('&')!=0){
 				var count = historyItems[i].visitCount;
 				var keyword = decodeURI(regexComp(url).replace(/\+/g, ' '));
-				var history = new Array(keyword, count);
+				//var history = new Array(keyword, count);
 				
-				historyLinks.push(history);//push the query keyword to array with count of visits
+				//historyLinks.push(history);//push the query keyword to array with count of visits
 				
 				data += "<tr>";
-				data += "<td id='keyword'><a href='"+url+"' target='_blank'>"+decodeURI(regexComp(url).replace(/\+/g, ' '))+"</a></td>";
+				data += "<td id='keyword'><a href='"+url+"' target='_blank'>"+keyword+"</a></td>";
 				data += "<td id='count'>"+count+"</td>";
 				data += "</tr>";
 			}
 		}
 		data += "</table>";
-		//historyLinks.sort(function(a, b){ return a.count - b.count; }
-		document.getElementById('history').innerHTML = historyLinks;
+		document.getElementById('history').innerHTML = data;
 	});
 }
 
