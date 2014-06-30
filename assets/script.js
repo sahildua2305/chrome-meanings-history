@@ -10,7 +10,7 @@ function regexQuery(string) {
 
 function extractDataFromHistory(){
 	//document.getElementById('history').innerHTML = "hi";
-	chrome.history.search({text: "", maxResults: 100000}, function(historyItems){
+	chrome.history.search({text: "google", maxResults: 100000}, function(historyItems){
 		var data = '';
 		for(var i=0; i<historyItems.length; i++){
 			var url = historyItems[i].url;
