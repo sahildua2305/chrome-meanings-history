@@ -1,26 +1,34 @@
-function regexQuery(string) {
-	var regexS = "google.+q=(.+?)&";
-	var regex = new RegExp(regexS);
-	var results = regex.exec(string);
-	if (results == null) 
+
+function regexComp(link) {
+	name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
+	link = link.replace(/(\?[\S]*)(#)/,"$1&"); 
+	var regexS = "[\\?&]q=([^&#]*)";
+	var regex = new RegExp( regexS );
+	var results = regex.exec(link);
+	if( results == null )
 		return false;
 	else
 		return results[1];
 }
 
 function extractDataFromHistory(){
-	//document.getElementById('history').innerHTML = "hi";
-	chrome.history.search({text: "google", maxResults: 100000}, function(historyItems){
-		var data = '';
+	//Call to Chrome History API
+	chrome.history.search({text: "", maxResults: 100000}, function(historyItems){
+		var data = "<table border='1'>";
+		data += "<tr><th>Search Query</th><th>Number of times</th></tr>";
+		
+		
 		for(var i=0; i<historyItems.length; i++){
 			var url = historyItems[i].url;
-			if(url.indexOf('google')>-1 && url.indexOf('q=')>-1 && regexQuery(url) && regexQuery(url).indexOf('&')!=0){
-				data += regexQuery(url).replace(/\+/g, ' ');
-				data += "<br>";
-				//data += url;
-				data += "<br>";
+			var count = historyItems[i].visitCount;
+			if(url.indexOf('google')>-1 && url.indexOf('q=')>-1 && regexComp(url) && regexComp(url).indexOf('&')!=0){
+				data += "<tr>";
+				data += "<td id='keyword'><a href='"+url+"' target='_blank'>"+decodeURI(regexComp(url).replace(/\+/g, ' '))+"</a></td>";
+				data += "<td id='count'>"+count+"</td>";
+				data += "</tr>";
 			}
 		}
+		data += "</table>";
 		document.getElementById('history').innerHTML = data;
 	});
 }
